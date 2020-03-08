@@ -1,5 +1,6 @@
 import cv2
 import argparse
+import os
 from tqdm import tqdm
 
 """----------------------------- Demo options -----------------------------"""
@@ -13,7 +14,9 @@ video_name = args.vid
 jump = int(args.jump)
 print(video_name)
 cap = cv2.VideoCapture(video_name)
-
+dir_name = 'img_frame'
+if not os.path.exists(dir_name):
+    os.mkdir(dir_name)
 #may be can use this flag 
 TotalFrames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
@@ -34,7 +37,7 @@ while(counter <= TotalFrames):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 #Cut the video extension to have the name of the video
         my_video_name = video_name.split(".")[0]
-        cv2.imwrite(my_video_name+'_frame_'+str(counter)+'.jpg',gray)
+        cv2.imwrite(os.path.join(dir_name,(my_video_name+'_frame_'+str(counter)+'.jpg')),gray)
 
     pbar.update(jump)
     counter =counter + jump
